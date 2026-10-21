@@ -131,7 +131,7 @@ python -m honeytem import-result work/offline-input/manifest.json work/result.js
 - editorial_copy: output은 title/comment/evidence_urls. 판매 카피는 현재 product.evidence.url 한 개를 원문 그대로 사용합니다. 다른 근거를 쓰려면 먼저 research 결과로 evidence를 갱신합니다. 콘셉트는 빈 evidence_urls를 사용합니다. 문체/사용 경험/품질 표현의 진실성은 운영자가 검토합니다.
 - authorized_image: output은 전체 asset 객체. 실제 상품을 AI 유사 이미지로 바꿀 수 없습니다.
 
-새 manifest는 같은 디렉터리의 새 파일로 저장하고 전체 검증을 다시 거칩니다. 낡은 입력 지문에 대한 결과는 거부합니다. 아직 상품 증거가 전혀 없다면 검증된 판매 manifest를 먼저 만들 수 없으므로 조사 담당자가 이 입력 계약을 따라 초안을 수동 준비해야 합니다.
+새 manifest는 같은 디렉터리의 새 파일로 저장하고 전체 검증을 다시 거칩니다. 낡은 입력 지문에 대한 결과는 거부합니다. 아직 상품 증거가 전혀 없다면 [상품 초안](drafts.md) 명령으로 URL과 로컬 원문에서 미검토 후보·누락 항목을 준비할 수 있습니다. 추출 결과는 자동 승인되지 않으며 검토 후 기존 정식 입력 계약을 통과해야 합니다.
 
 ## 검증과 비회귀 범위
 
@@ -149,3 +149,5 @@ python tools/benchmark.py --help
 - [실제 HTTP 모델 제공자 연결](providers.md): 기본 비활성화, 명시적 네트워크 허용, 미검토 후보 저장. `build`는 호출하지 않습니다.
 - [무음 릴스 내보내기](reels.md): 검증된 카드 묶음에서 원본 카드 크기를 보존해 MP4를 생성합니다. 음악·TTS·게시를 자동으로 추가하지 않습니다.
 - [기존/변경 비회귀 비교](regression-method.md)와 [운영 전환 조건](release-gates.md): 실제 상품·모델·Mac 영역은 별도 검증해야 합니다.
+
+네 가지 추가 제작 기능은 [통합 안내](four-feature-workflow.md)를 참조하세요. 기존 build 경로는 이 선택 기능들을 자동 실행하지 않습니다.

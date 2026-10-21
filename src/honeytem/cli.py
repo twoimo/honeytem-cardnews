@@ -11,7 +11,16 @@ from .pipeline import atomic_write, build, record_approval, verify
 from .schema import ValidationError, canonical, clean_path, load_manifest, parse_json, safe_read
 
 
+_EXTENSIONS = {
+    "drafts": ("draft-init", "draft-ingest", "draft-report", "draft-review", "draft-promote"),
+    "workflow": ("workflow-plan", "workflow-init", "workflow-run", "workflow-status", "workflow-review", "workflow-resolve"),
+    "imageprep": ("prepare-image", "verify-image"),
+    "composition": ("compose-reel", "verify-composition"),
+}
+
+
 def main(argv: list[str] | None = None) -> int:
+    argv = list(sys.argv[1:] if argv is None else argv)
     parser = argparse.ArgumentParser(prog="honeytem", description="Evidence-first drafts. Build is offline; optional providers require explicit network opt-in. No publication.")
     commands = parser.add_subparsers(dest="command", required=True)
     for name in ("validate", "build", "tasks", "import-result"):
@@ -51,9 +60,23 @@ def main(argv: list[str] | None = None) -> int:
     reel_verify = commands.add_parser("verify-reel")
     reel_verify.add_argument("export_dir", type=Path)
     reel_verify.add_argument("--expected-manifest-sha256")
+    # Optional extension modules are loaded only for their own commands. The
+    # established offline build path does not import HTTP/audio/image tooling.
+    extension_handler = None
+    for module_name, command_names in _EXTENSIONS.items():
+        if argv and argv[0] in command_names:
+            from importlib import import_module
+            extension = import_module("." + module_name, __package__)
+            extension.register_cli(commands)
+            extension_handler = extension.handle_cli
+        elif not argv or argv[0] in ("-h", "--help"):
+            for command_name in command_names:
+                commands.add_parser(command_name, help="Optional " + module_name + " command; use its --help for options")
     args = parser.parse_args(argv)
     try:
-        if args.command == "execute-provider":
+        if extension_handler is not None:
+            result = extension_handler(args)
+        elif args.command == "execute-provider":
             # Lazy imports keep the offline path independent of network adapters.
             from .providers import ProviderError, execute_provider, load_provider_config
             job = load_manifest(args.manifest)

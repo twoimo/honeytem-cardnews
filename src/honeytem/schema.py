@@ -193,7 +193,9 @@ def _pairs(pairs: list[tuple[str, object]]) -> dict:
 def parse_json(raw: bytes) -> dict:
     try:
         return json.loads(raw, object_pairs_hook=_pairs, parse_constant=lambda _: fail("manifest", "non-finite JSON number"))
-    except (UnicodeError, json.JSONDecodeError, RecursionError):
+    except ValidationError:
+        raise
+    except (UnicodeError, ValueError, RecursionError):
         fail("manifest", "invalid JSON")
 
 

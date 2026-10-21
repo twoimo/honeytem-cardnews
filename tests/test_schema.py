@@ -5,7 +5,7 @@ import json
 from pathlib import Path
 
 from support import FixtureCase
-from honeytem.schema import ValidationError, load_manifest, validate_manifest
+from honeytem.schema import ValidationError, load_manifest, validate_manifest, parse_json
 
 
 class ManifestValidationTests(FixtureCase):
@@ -278,3 +278,12 @@ class ManifestValidationTests(FixtureCase):
                 image.save(path, **options)
                 self.manifest["products"][0]["asset"]["path"] = path.name
                 self.invalid()
+
+    def test_overlong_json_integer_fails_with_sanitized_validation_error(self):
+        import sys
+        if not hasattr(sys, "get_int_max_str_digits") or not sys.get_int_max_str_digits():
+            self.skipTest("Runtime does not enforce an integer string digit limit")
+        raw = b'{"number":' + b'9' * (sys.get_int_max_str_digits() + 1) + b'}'
+        with self.assertRaises(ValidationError) as error:
+            parse_json(raw)
+        self.assertEqual(str(error.exception), "manifest: invalid JSON")
