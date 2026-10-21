@@ -1,0 +1,47 @@
+{
+  "measurement": "Current implementation baseline only; no earlier implementation or speedup claim.",
+  "scope": "Local offline builds, including validation, input hashing, render, QA, and deterministic packaging; warm run revalidates integrity.",
+  "runs": 3,
+  "samples": [
+    {
+      "cold_seconds": 0.6774625389998619,
+      "warm_verified_resume_seconds": 0.050000467999780085
+    },
+    {
+      "cold_seconds": 0.6269072400000368,
+      "warm_verified_resume_seconds": 0.05671412500032602
+    },
+    {
+      "cold_seconds": 0.7284778729999744,
+      "warm_verified_resume_seconds": 0.038409671999943384
+    }
+  ],
+  "cold_seconds": {
+    "median": 0.6774625389998619,
+    "min": 0.6269072400000368,
+    "max": 0.7284778729999744
+  },
+  "warm_verified_resume_seconds": {
+    "median": 0.050000467999780085,
+    "min": 0.038409671999943384,
+    "max": 0.05671412500032602
+  },
+  "process_peak_rss_bytes": 498765824,
+  "memory_note": "Whole benchmark process high-water RSS, not incremental or per-stage allocation.",
+  "runtime": {
+    "python": "3.12.14",
+    "pillow": "12.3.0",
+    "fonttools": "4.61.1",
+    "platform": "Linux-6.18.55-x86_64-with-glibc2.41",
+    "freetype": "2.14.3",
+    "libjpeg": "6.2",
+    "zlib": "1.3.1"
+  },
+  "platform": "Linux-6.18.55-x86_64-with-glibc2.41",
+  "fingerprint": "8689c1e11da91e5d6a446eca08fd6b8858bb16e81a2034505d9134b28d3f9fbf",
+  "package_sha256": "780c9c1e42f1c220d3684e1089d033f1831e0e8096ea97efd52dad20e5c4af90",
+  "package_bytes": 276217,
+  "rendered_png_bytes": 228279,
+  "products": 3,
+  "fixture": true
+}
