@@ -150,7 +150,8 @@ class PipelineIntegrityTests(FixtureCase):
         self.assertEqual((output / ".honeytem.lock").read_text(), "12345")
 
     def test_cli_error_does_not_echo_secret_input(self):
-        secret = "DO_NOT_LEAK_6aaf7a"
+        # Deliberately obvious public fixture, never an account credential.
+        secret = "public-test-only-do-not-echo"
         self.manifest = self.affiliate()
         self.manifest["products"][0]["affiliate_url"] = "https://share.vendor.co.kr/?access_token=" + secret
         path = self.write_manifest(name="secret-input.json")

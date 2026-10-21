@@ -572,4 +572,8 @@ def render(manifest: dict, assets: dict[str, bytes], font_bytes: bytes,
         _footer(page, manifest, product)
         images[filename] = page.finish(originals[product["id"]])
         qa["cards"].append(page.qa)
+        # PNG bytes and QA are independent; release the canvas before allocating
+        # the next page rather than overlapping two full-size image buffers.
+        page.image.close()
+        del page
     return images, qa

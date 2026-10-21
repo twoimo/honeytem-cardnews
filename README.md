@@ -25,9 +25,11 @@
 
 > 일반 상품 공유 링크와 수익 추적용 제휴 링크는 다릅니다. URL 모양만 보고 본인 실적이나 수익을 보장하지 않습니다.
 
-이 저장소에는 **봇 설정·운영 문서**와 **오프라인 Python 검토용 렌더러**가 있습니다. 검증된 입력으로 PNG·캡션·원본 링크·출처/검수/ZIP을 만듭니다. API 연동, 링크 자동 발급, 예약 발행은 구현하지 않습니다.
+이 저장소에는 **봇 설정·운영 문서**와 **오프라인 Python 검토용 렌더러**가 있습니다. 검증된 입력으로 PNG·캡션·원본 링크·출처/검수/ZIP을 만듭니다. 선택형 AI 제공자 호출과 검증된 카드의 무음 릴스 내보내기를 추가했습니다. 기본 빌드는 계속 오프라인이며, 링크 자동 발급·예약 발행·외부 게시는 하지 않습니다.
 
-➡️ [Python 실행·입력 계약·검토 흐름](docs/python-workflow.md) · [검증 근거와 미완료 범위](docs/verification.md)
+➡️ [Python 실행·입력 계약·검토 흐름](docs/python-workflow.md) · [검증 근거와 미완료 범위](docs/verification.md) · [운영 전환 게이트](docs/release-gates.md) · [2차 검증 기록](docs/extension-validation.md)
+
+선택 기능: [AI 제공자 연결](docs/providers.md) · [릴스 내보내기](docs/reels.md) · [비회귀 비교 방법](docs/regression-method.md). 모의 HTTP 계약 테스트는 실제 모델 품질 검증이 아니며, 합성 카드 인코딩은 실상품 사용권 검증이 아닙니다.
 
 실행 가능한 합성 도형 fixture는 `examples/offline/generate.py`에서 만들 수 있습니다. 실제 상품이나 AI 결과가 아니며 품질 비회귀 증명으로 사용하지 않습니다.
 

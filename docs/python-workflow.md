@@ -1,6 +1,6 @@
 # 오프라인 Python 카드뉴스 워크플로
 
-이 구현은 `honeytem-cardnews`만을 위한 **판매 전 검토용** 도구입니다. 기존 문서의 제휴·디자인 규칙을 바꾸지 않습니다. 네트워크 호출, 로그인, 가입, 유료 API, 제휴 링크 발급, 자동 수집, 게시·예약 발행, 서비스 설치는 없습니다.
+이 구현은 `honeytem-cardnews`만을 위한 **판매 전 검토용** 도구입니다. 기존 문서의 제휴·디자인 규칙을 바꾸지 않습니다. 기본 validate/build/tasks/import-result 경로는 네트워크를 사용하지 않습니다. 선택형 execute-provider만 명시적 허용 하에 설정한 모델 서버를 호출합니다. 로그인, 가입, 제휴 링크 발급, 자동 웹 수집, 게시·예약 발행, 서비스 설치는 하지 않습니다. 외부 API 비용은 별도 확인 대상입니다.
 
 ## 무엇을 코드로 옮겼는가
 
@@ -123,7 +123,7 @@ python -m honeytem import-result work/offline-input/manifest.json work/result.js
   --output work/offline-input/revised.json
 ```
 
-작업 파일 생성은 외부 서비스에 업로드하거나 모델/API를 실행하지 않습니다. 도구가 사용할 수 있는 모델/권한/비용이 확인된 후에만 별도 구현을 연결하세요. 실제 상품 정보조사·카피·이미지는 각각 결과가 필요합니다.
+작업 파일 생성은 외부 서비스에 업로드하거나 모델/API를 실행하지 않습니다. 선택형 `execute-provider` 연결은 [제공자 안내](providers.md)를 따릅니다. 모델/권한/비용 확인과 네트워크 명시적 허용이 필요하며 결과는 미검토 후보로만 저장됩니다. 실제 상품 정보조사·카피·이미지는 각각 결과가 필요합니다.
 
 결과 envelope: schema_version=1, input_fingerprint, product_id, kind, reviewed=true, output. kind는 product_research/editorial_copy/authorized_image입니다.
 
@@ -143,3 +143,9 @@ python tools/benchmark.py --help
 테스트는 필수 값, 가격/증거, 번호/링크, 추적 문자열, 원본 픽셀/바이트, 글리프, 레이아웃 경계, 텍스트 넘침, 10변형, 재현성, 재개, 변조, 승인 대상 변경을 검사합니다.
 
 수학적 불변식의 조건과 한계는 [검증 근거](verification.md)에 있습니다. 실제 모델 출력/상품 사진/기존 성능 기준선/사용자 승인 디자인 기준이 없어 **그 영역의 no-regression은 증명되지 않았습니다**. 사용자에게 보이는 테스트 산출물은 기능 확인 자료이지 승인된 골든 디자인이나 실판매 자료가 아닙니다. 검증되지 않은 코드를 main에 승격하지 말고 검토 브랜치에서 확인하세요.
+
+## 선택 확장
+
+- [실제 HTTP 모델 제공자 연결](providers.md): 기본 비활성화, 명시적 네트워크 허용, 미검토 후보 저장. `build`는 호출하지 않습니다.
+- [무음 릴스 내보내기](reels.md): 검증된 카드 묶음에서 원본 카드 크기를 보존해 MP4를 생성합니다. 음악·TTS·게시를 자동으로 추가하지 않습니다.
+- [기존/변경 비회귀 비교](regression-method.md)와 [운영 전환 조건](release-gates.md): 실제 상품·모델·Mac 영역은 별도 검증해야 합니다.
